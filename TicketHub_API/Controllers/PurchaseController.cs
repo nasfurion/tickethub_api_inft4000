@@ -26,7 +26,7 @@ namespace TicketHub_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            string queueName = "tickethub";
+            string queueName = "ticketHub";
 
             // Get connection string from secrets.json
             string? connectionString = _configuration["AzureStorageConnectionString"];
