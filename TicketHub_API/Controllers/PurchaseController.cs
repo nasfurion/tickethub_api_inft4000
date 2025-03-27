@@ -20,29 +20,36 @@ namespace TicketHub_API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Purchase purchase)
         {
-            
-            if (ModelState.IsValid == false)
+            try
             {
-                return BadRequest(ModelState);
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                string queueName = "tickethub";
+
+                // Get connection string from secrets.json
+                string? connectionString = _configuration["AzureStorageConnectionString"];
+
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    return BadRequest("An error was encountered");
+                }
+
+                QueueClient queueClient = new QueueClient(connectionString, queueName);
+
+                string message = JsonSerializer.Serialize(purchase);
+
+                await queueClient.SendMessageAsync(message);
+
+                return Ok("Hello " + purchase.name);
             }
-
-            string queueName = "ticketHub";
-
-            // Get connection string from secrets.json
-            string? connectionString = _configuration["AzureStorageConnectionString"];
-
-            if (string.IsNullOrEmpty(connectionString))
+            catch (Exception ex)
             {
-                return BadRequest("An error was encountered");
+                _logger.LogError(ex, "An error occurred while processing the purchase.");
+                return StatusCode(500, "An internal server error occurred.");
             }
-
-            QueueClient queueClient = new QueueClient(connectionString, queueName);
-
-            string message = JsonSerializer.Serialize(purchase);
-
-            await queueClient.SendMessageAsync(message);
-
-            return Ok("Hello" + purchase.name);
         }
     }
 }
