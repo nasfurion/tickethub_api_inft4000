@@ -20,9 +20,7 @@ namespace TicketHub_API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Purchase purchase)
         {
-            //if (string.IsNullOrEmpty(contact.FirstName) || string.IsNullOrEmpty(contact.LastName))
-            //    return BadRequest("First and last names are required");
-
+            
             if (ModelState.IsValid == false)
             {
                 return BadRequest(ModelState);
