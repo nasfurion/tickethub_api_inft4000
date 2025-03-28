@@ -20,6 +20,7 @@ namespace TicketHub_API
         public string phone { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Quantity is required")]
+        [RegularExpression(@"^(0|[1-9][0-9]*)$", ErrorMessage = "Please enter a numeric value")]
         [Range(1, 6, ErrorMessage = "The allowed ticket quantity is between 1 and 6")]
         public int quantity { get; set; }
 
@@ -28,10 +29,11 @@ namespace TicketHub_API
         public string creditCard { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Expiration date is required")]
-        [RegularExpression(@"^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$", ErrorMessage = "Please enter a valid expiration date")]
+        [RegularExpression(@"^(0[1-9]|1[0-2])\/?([0-9]{2})$", ErrorMessage = "Please enter a valid expiration date")]
         public string expiration { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Security code is required")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "The security code must be numbers only")]
         [StringLength(4, MinimumLength = 3, ErrorMessage = "Please enter a valid security code")]
         public string securityCode { get; set; } = string.Empty;
 
@@ -45,8 +47,8 @@ namespace TicketHub_API
         public string province { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Postal code is required")]
-        //https://stackoverflow.com/questions/1146202/canadian-postal-code-validation
-        [RegularExpression(@"[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] ?[0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]", ErrorMessage = "Please enter a valid postal code")]
+        //https://stackoverflow.com/questions/15774555/efficient-regex-for-canadian-postal-code-function
+        [RegularExpression(@"^[ABCEGHJKLMNPRSTVXYabceghjklmnprstvxy][0-9][ABCEGHJKLMNPRSTVWXYZabceghjklmnprstvwxyz] [0-9][ABCEGHJKLMNPRSTVWXYZabceghjklmnprstvwxyz][0-9]$", ErrorMessage = "Please enter a valid postal code")]
         public string postalCode { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Country is required")]
