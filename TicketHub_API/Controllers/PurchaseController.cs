@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Azure.Storage.Queues;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,9 +40,13 @@ namespace TicketHub_API.Controllers
 
                 QueueClient queueClient = new QueueClient(connectionString, queueName);
 
+                //Serialize object to json
                 string message = JsonSerializer.Serialize(purchase);
 
-                await queueClient.SendMessageAsync(message);
+                // send string message to queue (must encode as base64 to work properly)
+                var plainTextBytes = Encoding.UTF8.GetBytes(message);
+                var base64Message = Convert.ToBase64String(plainTextBytes);
+                await queueClient.SendMessageAsync(base64Message);
 
                 return Ok("Hello " + purchase.name);
             }
