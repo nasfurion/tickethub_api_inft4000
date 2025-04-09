@@ -7,7 +7,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("https://thankful-hill-06f44e50f.6.azurestaticapps.net");
+                          policy.WithOrigins("https://thankful-hill-06f44e50f.6.azurestaticapps.net")
+                                .AllowAnyMethod()
+                                .AllowAnyHeader();
                       });
 });
 
