@@ -48,7 +48,7 @@ namespace TicketHub_API
 
         [Required(ErrorMessage = "Postal code is required")]
         //https://stackoverflow.com/questions/15774555/efficient-regex-for-canadian-postal-code-function
-        [RegularExpression(@"^[ABCEGHJKLMNPRSTVXYabceghjklmnprstvxy][0-9][ABCEGHJKLMNPRSTVWXYZabceghjklmnprstvwxyz] [0-9][ABCEGHJKLMNPRSTVWXYZabceghjklmnprstvwxyz][0-9]$", ErrorMessage = "Please enter a valid postal code")]
+        [RegularExpression(@"^[ABCEGHJKLMNPRSTVXYabceghjklmnprstvxy][0-9][ABCEGHJKLMNPRSTVWXYZabceghjklmnprstvwxyz][ -]?[0-9][ABCEGHJKLMNPRSTVWXYZabceghjklmnprstvwxyz][0-9]$", ErrorMessage = "Please enter a valid postal code")]
         public string postalCode { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Country is required")]
